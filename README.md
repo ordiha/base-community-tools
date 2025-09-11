@@ -4,3 +4,5 @@ CommunityPoll deployment information: 0x3153bD07d1e9044C3B0Ed9c2AE53D1c60C49d918
 EventAnnouncer deployment information: 0x1aC38809d7da7993A020233143eF7700360BC472   https://basescan.org/address/0x1ac38809d7da7993a020233143ef7700360bc472#code
 
 RewardDistributor deployment information: 0x3b4Fe99Dec582D50d612AAE3ea50fDdDE83B66Ee  https://basescan.org/address/0x3b4fe99dec582d50d612aae3ea50fddde83b66ee#code
+
+MemberDirectory deployment information: 0x13Fa368d180f91B2341e6389b23AA98320B55195  https://basescan.org/address/0x13fa368d180f91b2341e6389b23aa98320b55195#code
