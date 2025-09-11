@@ -6,3 +6,7 @@ EventAnnouncer deployment information: 0x1aC38809d7da7993A020233143eF7700360BC47
 RewardDistributor deployment information: 0x3b4Fe99Dec582D50d612AAE3ea50fDdDE83B66Ee  https://basescan.org/address/0x3b4fe99dec582d50d612aae3ea50fddde83b66ee#code
 
 MemberDirectory deployment information: 0x13Fa368d180f91B2341e6389b23AA98320B55195  https://basescan.org/address/0x13fa368d180f91b2341e6389b23aa98320b55195#code
+
+IdeaBoard deployment information: 0xDfa01C72686F9C9d8345e0bF52f6750f4D45d1cF   https://basescan.org/address/0xdfa01c72686f9c9d8345e0bf52f6750f4d45d1cf#code
+
+
