@@ -19,4 +19,6 @@ Leaderboard deployment information: 0x2Ac1Bd56a40F74C4d380572045400378d78b463b  
 
 ChatRoom deployment information: 0xaeE2198805e4D2Ff5fA00AaC342A89E2Dda52880  https://basescan.org/address/0xaee2198805e4d2ff5fa00aac342a89e2dda52880#code
 
+AttendanceTracker deployment information: 0x26F6D6C82674D5Bac930C2253A931138CE972E82 https://basescan.org/address/0x26f6d6c82674d5bac930c2253a931138ce972e82#code 
+
 
