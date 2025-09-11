@@ -17,4 +17,6 @@ SkillShare deployment information: 0xd908e36d467035303CAd9A7e126782b028D35a62   
 
 Leaderboard deployment information: 0x2Ac1Bd56a40F74C4d380572045400378d78b463b  https://basescan.org/address/0x2ac1bd56a40f74c4d380572045400378d78b463b#code
 
+ChatRoom deployment information: 0xaeE2198805e4D2Ff5fA00AaC342A89E2Dda52880  https://basescan.org/address/0xaee2198805e4d2ff5fa00aac342a89e2dda52880#code
+
 
