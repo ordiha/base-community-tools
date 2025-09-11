@@ -11,4 +11,6 @@ IdeaBoard deployment information: 0xDfa01C72686F9C9d8345e0bF52f6750f4D45d1cF   h
 
 ShoutoutHub deployment information: 0x3139289c94191c0B47E9D282374Ec22B8Ca57cA1  https://basescan.org/address/0x3139289c94191c0b47e9d282374ec22b8ca57ca1#code
 
+SkillShare deployment information: 0xd908e36d467035303CAd9A7e126782b028D35a62   https://basescan.org/address/0xd908e36d467035303cad9a7e126782b028d35a62#code
+
 
