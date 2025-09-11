@@ -13,4 +13,6 @@ ShoutoutHub deployment information: 0x3139289c94191c0B47E9D282374Ec22B8Ca57cA1  
 
 SkillShare deployment information: 0xd908e36d467035303CAd9A7e126782b028D35a62   https://basescan.org/address/0xd908e36d467035303cad9a7e126782b028d35a62#code
 
+Leaderboard deployment information: 0x2Ac1Bd56a40F74C4d380572045400378d78b463b  https://basescan.org/address/0x2ac1bd56a40f74c4d380572045400378d78b463b#code
+
 
