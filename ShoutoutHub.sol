@@ -7,7 +7,7 @@ contract ShoutoutHub {
     uint256 public shoutoutCount;
 
     function sendShoutout(address _recipient, string memory _message) external payable {
-        require(msg.value >= 1000000000000000, "Minimum 0.001 ETH"); // 0.001 ETH
+        require(msg.value >= 1000000000000000, "Minimum 0.001 ETH"); // 0.0000001 ETH
         shoutouts[shoutoutCount] = _message;
         recipients[shoutoutCount] = _recipient;
         payable(_recipient).transfer(msg.value);
