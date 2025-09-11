@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Community Tools</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: url('https://i.imgur.com/hJfS03X.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            color: #d4a017;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px #000;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        button {
+            background-color: #d4a017;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #b8860b;
+        }
+        p {
+            margin: 5px 0;
+            font-size: 1em;
+        }
+        select {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid #d4a017;
+        }
+        #status {
+            color: #ff4444;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Base Community Tools</h1>
+
+        <div class="section">
+            <h2>CommunityPoll</h2>
+            <select id="voteOption">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+            <button onclick="votePoll()">Vote</button>
+            <p>Results: Yes <span id="yesVotes"></span>, No <span id="noVotes"></span></p>
+        </div>
+
+        <div class="section">
+            <h2>EventAnnouncer</h2>
+            <button onclick="announceEvent()">Announce Event</button>
+            <p>Last Event: <span id="lastEvent"></span></p>
+        </div>
+
+        <div class="section">
+            <h2>RewardDistributor</h2>
+            <button onclick="claimReward()">Claim Reward</button>
+            <p>Your Reward: <span id="rewardAmount"></span> wei</p>
+        </div>
+
+        <div class="section">
+            <h2>MemberDirectory</h2>
+            <button onclick="registerProfile()">Register Profile</button>
+            <p>Your Profile: <span id="profile"></span></p>
+        </div>
+
+        <div class="section">
+            <h2>IdeaBoard</h2>
+            <button onclick="submitIdea()">Submit Idea</button>
+            <button onclick="upvoteIdea()">Upvote Last Idea</button>
+            <p>Last Idea: <span id="lastIdea"></span>, Votes: <span id="ideaVotes"></span></p>
+        </div>
+
+        <div class="section">
+            <h2>ShoutoutHub</h2>
+            <button onclick="sendShoutout()">Send Shoutout (0.0000001 ETH)</button>
+            <p>Last Shoutout: <span id="lastShoutout"></span> to <span id="shoutoutRecipient"></span></p>
+        </div>
+
+        <div class="section">
+            <h2>SkillShare</h2>
+            <button onclick="addSkill()">Add Skill</button>
+            <p>Your Skills: <span id="skills"></span></p>
+        </div>
+
+        <div class="section">
+            <h2>Leaderboard</h2>
+            <button onclick="addScore()">Add 10 Points</button>
+            <p>Your Score: <span id="score"></span></p>
+        </div>
+
+        <p id="status"></p>
+    </div>
+
+    <script>
+        const web3 = new Web3(window.ethereum);
+        const addresses = {
+            communityPoll: '0x3153bD07d1e9044C3B0Ed9c2AE53D1c60C49d918',
+            eventAnnouncer: '0x1aC38809d7da7993A020233143eF7700360BC472',
+            rewardDistributor: '0x3b4Fe99Dec582D50d612AAE3ea50fDdDE83B66Ee',
+            memberDirectory: '0x13Fa368d180f91B2341e6389b23AA98320B55195',
+            ideaBoard: '0xDfa01C72686F9C9d8345e0bF52f6750f4D45d1cF',
+            shoutoutHub: '0x3139289c94191c0B47E9D282374Ec22B8Ca57cA1',
+            skillShare: '0xd908e36d467035303CAd9A7e126782b028D35a62',
+            leaderboard: '0x2Ac1Bd56a40F74C4d380572045400378d78b463b'
+        };
+        const abis = {
+            communityPoll: [{"inputs":[{"internalType":"bool","name":"_yes","type":"bool"}],"name":"vote","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getResults","outputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}],
+            eventAnnouncer: [{"inputs":[{"internalType":"string","name":"_eventDetails","type":"string"}],"name":"announceEvent","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_id","type":"uint256"}],"name":"getEvent","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}],
+            rewardDistributor: [{"inputs":[{"internalType":"address","name":"_user","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"distributeReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}],
+            memberDirectory: [{"inputs":[{"internalType":"string","name":"_profile","type":"string"}],"name":"registerProfile","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getProfile","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}],
+            ideaBoard: [{"inputs":[{"internalType":"string","name":"_idea","type":"string"}],"name":"submitIdea","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_id","type":"uint256"}],"name":"upvoteIdea","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_id","type":"uint256"}],"name":"getIdea","outputs":[{"internalType":"string","name":"","type":"string"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}],
+            shoutoutHub: [{"inputs":[{"internalType":"address","name":"_recipient","type":"address"},{"internalType":"string","name":"_message","type":"string"}],"name":"sendShoutout","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_id","type":"uint256"}],"name":"getShoutout","outputs":[{"internalType":"string","name":"","type":"string"},{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}],
+            skillShare: [{"inputs":[{"internalType":"string","name":"_skill","type":"string"}],"name":"addSkill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getSkills","outputs":[{"internalType":"string[]","name":"","type":"string[]"}],"stateMutability":"view","type":"function"}],
+            leaderboard: [{"inputs":[{"internalType":"uint256","name":"_score","type":"uint256"}],"name":"addScore","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getScore","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+        };
+
+        async function votePoll() {
+            const status = document.getElementById("status");
+            status.innerText = "Voting...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.communityPoll, addresses.communityPoll);
+                const vote = document.getElementById("voteOption").value === "true";
+                await contract.methods.vote(vote).send({ from: accounts[0] });
+                status.innerText = "Voted! Updating...";
+                updatePollResults();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function announceEvent() {
+            const status = document.getElementById("status");
+            status.innerText = "Announcing...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.eventAnnouncer, addresses.eventAnnouncer);
+                await contract.methods.announceEvent("Farcaster meetup Sep 15").send({ from: accounts[0] });
+                status.innerText = "Announced! Updating...";
+                updateLastEvent();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function claimReward() {
+            const status = document.getElementById("status");
+            status.innerText = "Claiming...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.rewardDistributor, addresses.rewardDistributor);
+                await contract.methods.claimReward().send({ from: accounts[0] });
+                status.innerText = "Claimed! Updating...";
+                updateReward();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function registerProfile() {
+            const status = document.getElementById("status");
+            status.innerText = "Registering...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.memberDirectory, addresses.memberDirectory);
+                await contract.methods.registerProfile("Dev on Base").send({ from: accounts[0] });
+                status.innerText = "Registered! Updating...";
+                updateProfile();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function submitIdea() {
+            const status = document.getElementById("status");
+            status.innerText = "Submitting...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.ideaBoard, addresses.ideaBoard);
+                await contract.methods.submitIdea("Add chat feature").send({ from: accounts[0] });
+                status.innerText = "Submitted! Updating...";
+                updateLastIdea();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function upvoteIdea() {
+            const status = document.getElementById("status");
+            status.innerText = "Upvoting...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.ideaBoard, addresses.ideaBoard);
+                await contract.methods.upvoteIdea(0).send({ from: accounts[0] });
+                status.innerText = "Upvoted! Updating...";
+                updateLastIdea();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function sendShoutout() {
+            const status = document.getElementById("status");
+            status.innerText = "Sending...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.shoutoutHub, addresses.shoutoutHub);
+                await contract.methods.sendShoutout(accounts[0], "Great work!").send({ from: accounts[0], value: web3.utils.toWei('0.0000001', 'ether') });
+                status.innerText = "Sent! Updating...";
+                updateLastShoutout();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function addSkill() {
+            const status = document.getElementById("status");
+            status.innerText = "Adding...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.skillShare, addresses.skillShare);
+                await contract.methods.addSkill("Solidity").send({ from: accounts[0] });
+                status.innerText = "Added! Updating...";
+                updateSkills();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function addScore() {
+            const status = document.getElementById("status");
+            status.innerText = "Adding...";
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const contract = new web3.eth.Contract(abis.leaderboard, addresses.leaderboard);
+                await contract.methods.addScore(10).send({ from: accounts[0] });
+                status.innerText = "Added! Updating...";
+                updateScore();
+            } catch (error) { status.innerText = "Error: " + error.message; }
+        }
+
+        async function updatePollResults() {
+            const contract = new web3.eth.Contract(abis.communityPoll, addresses.communityPoll);
+            const [yes, no] = await contract.methods.getResults().call();
+            document.getElementById('yesVotes').innerText = yes;
+            document.getElementById('noVotes').innerText = no;
+        }
+
+        async function updateLastEvent() {
+            const contract = new web3.eth.Contract(abis.eventAnnouncer, addresses.eventAnnouncer);
+            const event = await contract.methods.getEvent(0).call();
+            document.getElementById('lastEvent').innerText = event;
+        }
+
+        async function updateReward() {
+            const contract = new web3.eth.Contract(abis.rewardDistributor, addresses.rewardDistributor);
+            const reward = await contract.methods.getReward(accounts[0]).call();
+            document.getElementById('rewardAmount').innerText = reward;
+        }
+
+        async function updateProfile() {
+            const contract = new web3.eth.Contract(abis.memberDirectory, addresses.memberDirectory);
+            const profile = await contract.methods.getProfile(accounts[0]).call();
+            document.getElementById('profile').innerText = profile;
+        }
+
+        async function updateLastIdea() {
+            const contract = new web3.eth.Contract(abis.ideaBoard, addresses.ideaBoard);
+            const [idea, votes] = await contract.methods.getIdea(0).call();
+            document.getElementById('lastIdea').innerText = idea;
+            document.getElementById('ideaVotes').innerText = votes;
+        }
+
+        async function updateLastShoutout() {
+            const contract = new web3.eth.Contract(abis.shoutoutHub, addresses.shoutoutHub);
+            const [message, recipient] = await contract.methods.getShoutout(0).call();
+            document.getElementById('lastShoutout').innerText = message;
+            document.getElementById('shoutoutRecipient').innerText = recipient;
+        }
+
+        async function updateSkills() {
+            const contract = new web3.eth.Contract(abis.skillShare, addresses.skillShare);
+            const skills = await contract.methods.getSkills(accounts[0]).call();
+            document.getElementById('skills').innerText = skills.join(", ");
+        }
+
+        async function updateScore() {
+            const contract = new web3.eth.Contract(abis.leaderboard, addresses.leaderboard);
+            const score = await contract.methods.getScore(accounts[0]).call();
+            document.getElementById('score').innerText = score;
+        }
+
+        // Initial updates
+        (async () => {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await web3.eth.getAccounts();
+            updatePollResults();
+            updateLastEvent();
+            updateReward();
+            updateProfile();
+            updateLastIdea();
+            updateLastShoutout();
+            updateSkills();
+            updateScore();
+        })();
+    </script>
+</body>
+</html>
