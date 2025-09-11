@@ -9,4 +9,8 @@ MemberDirectory deployment information: 0x13Fa368d180f91B2341e6389b23AA98320B551
 
 IdeaBoard deployment information: 0xDfa01C72686F9C9d8345e0bF52f6750f4D45d1cF   https://basescan.org/address/0xdfa01c72686f9c9d8345e0bf52f6750f4d45d1cf#code
 
+ShoutoutHub deployment information: 0x1FfB89AA85CF929AA24365d5ad5245Cb373CB748  https://basescan.org/address/0x1ffb89aa85cf929aa24365d5ad5245cb373cb748#code
+
+
+
 
