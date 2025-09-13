@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract RewardTracker {
+    address public owner;
+    mapping(address => uint256) public rewards;
+
+    event RewardAdded(address indexed user, uint256 amount, uint256 timestamp);
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function addReward(address _user, uint256 _amount) public {
+        require(msg.sender == owner, "Only owner can add rewards");
+        rewards[_user] += _amount;
+        emit RewardAdded(_user, _amount, block.timestamp);
+    }
+
+    function getReward(address _user) public view returns (uint256) {
+        return rewards[_user];
+    }
+}
