@@ -27,3 +27,7 @@ FeedbackCollector deployment information: 0x0ADF09d761a8edbf4B271FC3eA18fa797591
 
 RewardTracker deployment information: 0x5dCF245485A2cbc17038220e60AE0268879dB470 https://basescan.org/address/0x5dcf245485a2cbc17038220e60ae0268879db470#writeContract
 
+EventLogger deployment information: 0xFac50ce5cdb4E93608A5032b9c3Ca60bA3a8D5d5   https://basescan.org/address/0xfac50ce5cdb4e93608a5032b9c3ca60ba3a8d5d5#writeContract
+
+
+
