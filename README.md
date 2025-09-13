@@ -23,5 +23,7 @@ AttendanceTracker deployment information: 0x26F6D6C82674D5Bac930C2253A931138CE97
 
 Tipjar deployment information: 0x21472b9efED6eC94f20F2096045BB3f5A7447645  https://basescan.org/address/0x21472b9efed6ec94f20f2096045bb3f5a7447645#code
 
-FeedbackCollector  deployment information: 0x0ADF09d761a8edbf4B271FC3eA18fa7975915E8ecc  https://basescan.org/address/0x0adf09d761a8edbf4b271fc3ea18fa7975915e8e#code
+FeedbackCollector deployment information: 0x0ADF09d761a8edbf4B271FC3eA18fa7975915E8ecc  https://basescan.org/address/0x0adf09d761a8edbf4b271fc3ea18fa7975915e8e#code
+
+RewardTracker deployment information: 0x5dCF245485A2cbc17038220e60AE0268879dB470 https://basescan.org/address/0x5dcf245485a2cbc17038220e60ae0268879db470#writeContract
 
