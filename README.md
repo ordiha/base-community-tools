@@ -21,6 +21,7 @@ ChatRoom deployment information: 0xaeE2198805e4D2Ff5fA00AaC342A89E2Dda52880  htt
 
 AttendanceTracker deployment information: 0x26F6D6C82674D5Bac930C2253A931138CE972E82 https://basescan.org/address/0x26f6d6c82674d5bac930c2253a931138ce972e82#code
 
-Tipjar deployment information: 0x21472b9efED6eC94f20F2096045BB3f5A7447645 https://basescan.org/address/0x21472b9efed6ec94f20f2096045bb3f5a7447645#code
+Tipjar deployment information: 0x21472b9efED6eC94f20F2096045BB3f5A7447645  https://basescan.org/address/0x21472b9efed6ec94f20f2096045bb3f5a7447645#code
 
+FeedbackCollector  deployment information: 0x0ADF09d761a8edbf4B271FC3eA18fa7975915E8ecc  https://basescan.org/address/0x0adf09d761a8edbf4b271fc3ea18fa7975915e8e#code
 
